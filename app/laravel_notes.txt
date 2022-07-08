@@ -1,0 +1,9 @@
+-PHP Framework
+-Laravel
+-OOP -> autoloading/Namespace
+-MVC Design Patterns
+-MVC - Model View Controller
+-View - Design
+-Model - Database,Query, Business Logic, Data
+-Web Brower -> Route->Controller<-Model and View ဆီကနေdata ယူ
+-Ruby -> Rail -> MVC
