@@ -34,13 +34,18 @@ Route::get('/', function () {
 //     ]);
 // });
 //Route::get('/',[App\Http\Controllers\PostController::class,'index']);
-Route::get('/',[PostController::class,'index']);
 
-Route::get('/posts',[PostController::class,'index']);
-Route::get('/posts/create',[PostController::class,'create']);
-//Route::get('/post-show',[PostController::class,'show']);
-Route::post('/posts/store',[PostController::class,'store']);
-Route::get('/posts/edit/{id}',[PostController::class,'edit']);
-Route::get('/posts/show/{id}',[PostController::class,'show']);
-Route::post('/posts/update/{id}',[PostController::class,'update']);
-Route::get('/posts/delete/{id}',[PostController::class,'destroy']);
+// Route::get('/',[PostController::class,'index']);
+
+// Route::get('/posts',[PostController::class,'index']);
+// Route::get('/posts/create',[PostController::class,'create']);
+// //Route::get('/post-show',[PostController::class,'show']);
+// Route::post('/posts',[PostController::class,'store']);
+// Route::get('/posts/{id}/edit',[PostController::class,'edit']);
+// Route::get('/posts/{id}',[PostController::class,'show']);
+// Route::put('/posts/{id}',[PostController::class,'update']);
+// Route::delete('/posts/{id}',[PostController::class,'destroy']);
+
+
+
+Route::resource('posts',PostController::class);
