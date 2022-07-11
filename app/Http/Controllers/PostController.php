@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -20,6 +21,14 @@ class PostController extends Controller
     //     'posts'=> $posts;
     //    ]);
        return view ('posts.index',compact('posts'));
+
+    // $user = Auth::user();
+    // dd($user);
+    // if (Auth::check()) {
+    //     return 'Logged in';
+    // }else {
+    //     return 'Not logged in';
+    // }
     }
 
     public function create() {

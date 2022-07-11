@@ -4,6 +4,11 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\PostController;
 
+use App\Http\Controllers\RegisterController;
+
+use App\Http\Controllers\LoginController;
+
+
 
 
 // Route::get('uri,'callback function,anonymous function,closure' () {
@@ -48,4 +53,19 @@ Route::get('/', function () {
 
 
 
-Route::resource('posts',PostController::class);
+Route::resource('/posts',PostController::class);
+
+Route::get('master',function() {
+    return view('layouts.master');
+});
+
+Route::get('register', [RegisterController::class, 'create' ]);
+Route::post('register', [RegisterController::class, 'store' ]);
+
+Route::get('login', [LoginController::class, 'create' ]);
+Route::post('login', [LoginController::class, 'store' ]);
+
+Route::get('/', [PostController::class, 'index' ]);
+Route::get('logout', [LoginController::class, 'destroy' ]);
+
+
