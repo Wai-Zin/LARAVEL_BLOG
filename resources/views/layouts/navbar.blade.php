@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
     <div class="container">
-      <a class="navbar-brand" href="/posts">Blog</a>
+      <a class="navbar-brand" href="{{ route ('post_home') }}">Blog</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -9,9 +9,15 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/posts">Home</a>
           </li>
+          @auth
           <li class="nav-item">
             <a class="nav-link" href="/posts/create">Create A Post</a>
           </li>
+
+          @endauth
+
+
+
          @if(Auth::check())
 
          <li class="nav-item dropdown">

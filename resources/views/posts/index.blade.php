@@ -17,7 +17,8 @@
                 <h3>
                     <a href="/posts{{ $post -> id }}">{{ $post -> title }}</a>
                 </h3>
-                January 1,2021 by Mark
+                  {{-- {{ $post -> created_at -> format('Y-M-D')}}by Mark --}}
+                  {{ $post -> created_at -> diffForHumans()}} by Mark
                 <p>{{$post -> body }}</p>
                 <div class="d-flex justify-content-end">
                     {{-- <a href="/posts/{{ $post -> id }}">{{ $post->title }} </a> --}}

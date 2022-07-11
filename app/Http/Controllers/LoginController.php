@@ -41,6 +41,8 @@ class LoginController extends Controller
         //     return 'Login failed';
         // }
         return redirect('posts');
+        // $request->session() ->regenerate();
+        // return redirect() -> intended('posts');
 
     }
     public function destroy() {
