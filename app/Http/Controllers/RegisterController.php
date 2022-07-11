@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 
+use App\Http\Requests\RegisterRequest;
+
 class RegisterController extends Controller
 {
     public function create() {
         return  view('auth.register');
     }
-    public function store(Request $request) {
+    public function store(RegisterRequest $request) {
         //dd($request -> all());
 
         $user = new User();

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\LoginRequest;
+use Illuminate\Validation\ValidationException;
 
 
 class LoginController extends Controller
@@ -13,11 +15,14 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function store(Request $request) {
+    public function store(LoginRequest $request) {
         //dd($request->all());
         $user = User::where('email',$request -> email) -> first();
         //dd($user);
         if( ! $user) {
+             throw  ValidationException::withMessages([
+                'email' => 'The Email is not registered.'
+            ]);
             return redirect('login');
         }
 
@@ -27,6 +32,9 @@ class LoginController extends Controller
         ];
 
         if(!Auth::attempt($credentials)) {
+            throw ValidationException::withMessages([
+                'email' => 'The Email or password is incorrect.'
+            ]);
             return redirect('login');
         }
         // else {
