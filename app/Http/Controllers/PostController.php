@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Auth;
 class PostController extends Controller
 {
     public function index() {
-        $posts = Post::all();
+        // $posts = Post::all();
+        $posts = Post::paginate(3);
         //dd($posts);
         //echo "This is Die";
 

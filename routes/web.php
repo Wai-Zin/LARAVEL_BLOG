@@ -73,7 +73,18 @@ Route::get('/', function () {
 
 //  });
 
+Route::get('test',function() {
+    \App\Models\Post::factory()->count(3)->create();
+});
 
+// Route::get('generate-post', function () {
+//     for($i=0;$i<10;$i++) {
+//         \App\Models\Post::create([
+//             'title' => 'My Title',
+//             'Body' => 'My Title Body'
+//         ]);
+//     }
+// });
 
 // Route::resource('/posts',PostController::class);
 

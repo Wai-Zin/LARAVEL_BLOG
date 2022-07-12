@@ -14,6 +14,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // User::create([
+        //     'name' => ' ',
+        //     'email' => ' ',
+        //     'password' => Hash::make('')
+        // ]);
+
+        // $this->call(\database\seeders\UserSeeder::class);
+        // $this->call(\datbase\seeders\PostSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
