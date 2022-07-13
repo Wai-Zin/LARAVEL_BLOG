@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -14,13 +14,16 @@ class PostController extends Controller
 {
     public function index() {
         // $posts = Post::all();
-        $posts = Post::paginate(4);
+        //$posts = Post::paginate(4);
         //dd($posts);
         //echo "This is Die";
 
     //    return view('posts.index',[
     //     'posts'=> $posts;
     //    ]);
+      $posts = Post::select('posts.*','users.name')->join('users', 'users.id', '=', 'posts.user_id')->paginate(3);
+    //  $posts = DB::table('posts')->join('users','users.id','=','posts.user_id')->get();
+
        return view ('posts.index',compact('posts'));
 
     // $user = Auth::user();
