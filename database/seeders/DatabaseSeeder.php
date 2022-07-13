@@ -14,14 +14,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // User::create([
-        //     'name' => ' ',
-        //     'email' => ' ',
-        //     'password' => Hash::make('')
-        // ]);
+        //     User::create([
+        //    'name' => 'Wai Zin ',
+        //    'email' => 'wzpa43@gmail.com ',
+        //    'password' => bcrypt('444555')
+        //   ]);
 
-        // $this->call(\database\seeders\UserSeeder::class);
-        // $this->call(\datbase\seeders\PostSeeder::class);
+        // $this->call(\Database\Seeders\UserSeeder::class);
+        // $this->call(\Datbase\Seeders\PostSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(PostSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

@@ -18,7 +18,17 @@
                     <a href="/posts{{ $post -> id }}">{{ $post -> title }}</a>
                 </h3>
                   {{-- {{ $post -> created_at -> format('Y-M-D')}}by Mark --}}
-                  {{ $post -> created_at -> diffForHumans()}} by Mark
+
+                 <i>{{ $post -> created_at -> diffForHumans()}} </i> by <b>
+                    @php
+                        $userId = $post->user_id;
+                        $user = \App\Models\User::find($userId);
+                        echo $user->name;
+                    @endphp
+                 </b>
+
+
+
                 <p>{{$post -> body }}</p>
                 <div class="d-flex justify-content-end">
                     {{-- <a href="/posts/{{ $post -> id }}">{{ $post->title }} </a> --}}

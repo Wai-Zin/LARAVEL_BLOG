@@ -20,7 +20,8 @@ class PostFactory extends Factory
             // 'title' => 'My Title from Factory',
             // 'body' => 'My Title from Factory'
             'title' => $this->faker->text(10),
-            'body' => $this->faker->text(100)
+            'body' => $this->faker->text(100),
+            'user_id'=> 1,
 
         ];
     }
