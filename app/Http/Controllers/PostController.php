@@ -7,21 +7,27 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use  App\Http\Requests\PostRequest;
 
 
 
 class PostController extends Controller
 {
     public function index() {
+
+
         // $posts = Post::all();
-        //$posts = Post::paginate(4);
+        $posts = Post::paginate(4);
         //dd($posts);
         //echo "This is Die";
 
     //    return view('posts.index',[
     //     'posts'=> $posts;
     //    ]);
-      $posts = Post::select('posts.*','users.name')->join('users', 'users.id', '=', 'posts.user_id')->paginate(3);
+      $posts = Post::select('posts.*','users.name as author')
+      ->join('users', 'users.id', '=', 'posts.user_id')
+      ->orderby('id', 'desc')
+      ->paginate(3);     //->simplePaginate();
     //  $posts = DB::table('posts')->join('users','users.id','=','posts.user_id')->get();
 
        return view ('posts.index',compact('posts'));
@@ -39,18 +45,23 @@ class PostController extends Controller
         return view ('posts.create');
     }
 
-    public function store(Request $request) {
+    public function store(PostRequest $request) {
 
-    //    $validator =  Validator::make($request -> all() , [
-    //         'title' => 'required',
-    //         'body' => 'required'
-    //     ]);
-    //     if($validator->fails()) {
-    //         return redirect('posts/create')->withErrors($validator);
-    //      } else {
-    //         return "Validation success";
-    //     }
+      $validator =  Validator::make($request -> all() , [
+            'title' => 'required',
+            'body' => 'required'
+        ]);
 
+        // if($validator->fails()) {
+        //   return redirect('posts/create')->withErrors($validator);
+        //  } else {
+        //     return "Validation success";
+        //  }
+        if($validator->fails()) {
+            return redirect('/posts/create')
+            ->withErrors($validator)
+            ->withInput();
+        }
 
         // $post = new Post;
         // $post->title = "Second Post";
@@ -75,17 +86,24 @@ class PostController extends Controller
         //     'body.min' => 'အနည်းဆုံး၅လုံးထည့်ပါ'
         // ]);
 
-        $post = new Post;
-        //  $post->title = request('title');
-        //  $post->body =  request('body');
-         $post -> title = $request -> title;
-         $post -> body = $request -> body;
-         $post->created_at =now();
-         $post->updated_at= now();
-         $post->save();
-         return redirect('/posts');
+        // $post = new Post;
+        // //  $post->title = request('title');
+        // //  $post->body =  request('body');
+        //  $post -> title = $request -> title;
+        //  $post -> body = $request -> body;
+        //  $post->created_at =now();
+        //  $post->updated_at= now();
+        //  $post->save();
+       // Post::create($request -> only(['title', 'body']));
+       Post::create([
+        'title' => $request -> title,
+        'body' => $request->body,
+        'user_id' => auth()->id(),
+       ]);
+         return redirect('/posts')->with('success' , 'A post was created successfully.');
 
     }
+
     public function edit($id) {
         $post = Post::find($id);
         return view('posts.edit', compact('post'));
@@ -114,7 +132,11 @@ class PostController extends Controller
     }
 
     public function show($id) {
-        $post = Post::find($id);
+       // $post = Post::find($id);
+        $post = Post::select(['posts.*','users.name as author'])
+        ->join('users','users.id','posts.user_id')
+        ->where('posts.id',$id)     //->find()->toSql();
+        ->first();
         return view('posts.show' , compact('post'));
     }
 

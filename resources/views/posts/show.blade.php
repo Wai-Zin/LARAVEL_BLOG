@@ -15,7 +15,7 @@
 
 
    <h3> {{ $post-> title}}</h3>
-   <p> Post By Mg Mg</p>
+   <p> Post By <b> {{ $post -> author}} </b>on <i>{{ $post -> created_at-> diffForHumans() }}</i></p>
    <p> {{ $post -> body }}</p>
 
 

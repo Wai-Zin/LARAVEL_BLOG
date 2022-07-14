@@ -8,7 +8,7 @@ use App\Http\Controllers\RegisterController;
 
 use App\Http\Controllers\LoginController;
 
-
+use App\Http\Controllers\MyPostController;
 
 
 // Route::get('uri,'callback function,anonymous function,closure' () {
@@ -100,5 +100,8 @@ Route::post('login', [LoginController::class, 'store' ]);
 
 Route::get('/', [PostController::class, 'index' ]);
 Route::get('logout', [LoginController::class, 'destroy' ]);
+
+
+Route::get('my-posts',[MyPostController::class, 'index']);
 
 
