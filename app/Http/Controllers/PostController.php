@@ -13,21 +13,29 @@ use  App\Http\Requests\PostRequest;
 
 class PostController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
 
 
         // $posts = Post::all();
-        $posts = Post::paginate(4);
+
+        // $request->search;
+        // $request->input('search');
+        // $request->get('search');
+        // $request->query('search');   //get method only
+        // request('search');
+        // $posts = Post::paginate(4);
+        $posts = Post::where('title','like','%'. $request -> search . '%')->orderBy('id','desc')->paginate(4);
         //dd($posts);
         //echo "This is Die";
 
     //    return view('posts.index',[
     //     'posts'=> $posts;
     //    ]);
-      $posts = Post::select('posts.*','users.name as author')
-      ->join('users', 'users.id', '=', 'posts.user_id')
-      ->orderby('id', 'desc')
-      ->paginate(3);     //->simplePaginate();
+
+    //   $posts = Post::select('posts.*','users.name as author')
+    //   ->join('users', 'users.id', '=', 'posts.user_id')
+    //   ->orderby('id', 'desc')
+    //   ->paginate(3);     //->simplePaginate();
     //  $posts = DB::table('posts')->join('users','users.id','=','posts.user_id')->get();
 
        return view ('posts.index',compact('posts'));
