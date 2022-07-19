@@ -1,107 +1,61 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\PostController;
-
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MyPostController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RegisterController;
 
-use App\Http\Controllers\LoginController;
+// Route::get('/', [PostController::class, 'index']);
 
-use App\Http\Controllers\MyPostController;
-
-
-// Route::get('uri,'callback function,anonymous function,closure' () {
-// return or view()
-// });
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-// Route::get('home',function () {
-//     $name = "wai zin";
-//     $colors = ['red', 'green','blue'];
-//     $message = "<i> This is a message</i>";
-//     return view('pages/home',compact('name','colors','message'));
-// });
-
-// Route::get('home',function () {
-//     return view('home', [
-//         'name' => 'Mg Mg';
-//     ]);
-// });
-
-// Route::get('home',function () {
-//     $name = "Kyaw Kyaw";
-       //return view('home', [
-//         'name' => $name;
-//     ]);
-// });
-//Route::get('/',[App\Http\Controllers\PostController::class,'index']);
-
-//  Route::get('/',[PostController::class,'index']);
-
- Route::redirect('/','posts');
-
-//  Route::get('welcome', function() {
-//     return view('welcome');
-//  });
- Route::view('welcome', 'welcome');
- Route::get('welcome/{name}', function($name) {
-    return "Hello $name";
- });
-
- Route::get('/posts',[PostController::class,'index'])->name('post_home');
- Route::get('/posts/create',[PostController::class,'create'])->middleware('myauth');
- Route::get('/post-show',[PostController::class,'show'])->middleware('myauth');
- Route::post('/posts',[PostController::class,'store'])->middleware('myauth');
- Route::get('/posts/{id}/edit',[PostController::class,'edit'])->middleware('myauth');
- Route::get('/posts/{id}',[PostController::class,'show'])->middleware('myauth');
- Route::put('/posts/{id}',[PostController::class,'update'])->middleware('myauth');
- Route::delete('/posts/{id}',[PostController::class,'destroy'])->middleware('myauth');
-
-//  Route::prefix('posts')->middleware('myauth')->group(function(){
-//     Route::get('/',[PostController::class,'index'])->name('post_home');
-//     Route::get('/create',[PostController::class,'create']);
-//     Route::get('/show',[PostController::class,'show']);
-//     Route::post('',[PostController::class,'store']);
-//     Route::get('/{id}/edit',[PostController::class,'edit']);
-//     Route::get('/{id}',[PostController::class,'show']);
-//     Route::put('/{id}',[PostController::class,'update']);
-//     Route::delete('/{id}',[PostController::class,'destroy']);
-
-//  });
-
-Route::get('test',function() {
-    \App\Models\Post::factory()->count(3)->create();
-});
-
-// Route::get('generate-post', function () {
-//     for($i=0;$i<10;$i++) {
-//         \App\Models\Post::create([
-//             'title' => 'My Title',
-//             'Body' => 'My Title Body'
-//         ]);
+// Route::get('welcome/{lang}', function($lang) {
+//     if($lang == 'en') {
+//         return "English";
 //     }
+//     if($lang == 'my') {
+//         return "Myanmar";
+//     }
+// })->where('lang', 'en|my');
+// Route::view('welcomexxx', 'welcome');
+
+Route::redirect('/', '/posts');
+
+// Route::prefix('posts')->middleware('myauth')->group(function() {
+//     Route::get('/', [PostController::class, 'index'])->name('post.index');
+//     Route::get('/create', [PostController::class, 'create']);
+//     Route::post('', [PostController::class, 'store']);
+//     Route::get('/{id}/edit', [PostController::class, 'edit']);
+//     Route::put('/{id}', [PostController::class, 'update']);
+//     Route::patch('/{id}', [PostController::class, 'update']);
+//     Route::get('/{id}', [PostController::class, 'show']);
+//     Route::delete('/{id}', [PostController::class, 'destroy']);
 // });
 
-// Route::resource('/posts',PostController::class);
+Route::get('/posts', [PostController::class, 'index'])->name('post.index');
+Route::get('/posts/create', [PostController::class, 'create'])->middleware('myauth');
+Route::post('/posts', [PostController::class, 'store'])->middleware('myauth');
+Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->middleware('myauth');
+Route::put('/posts/{id}', [PostController::class, 'update'])->middleware('myauth');
+Route::patch('/posts/{id}', [PostController::class, 'update']);
+Route::get('/posts/{id}', [PostController::class, 'show']);
+Route::delete('/posts/{id}', [PostController::class, 'destroy'])->middleware('myauth');
 
-Route::get('master',function() {
-    return view('layouts.master');
-});
+Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
+Route::get('/categories/create', [CategoryController::class, 'create'])->name('category.create');
+Route::post('/categories', [CategoryController::class, 'store'])->name('category.store');
+Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
+Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('category.update');
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
-Route::get('register', [RegisterController::class, 'create' ]);
-Route::post('register', [RegisterController::class, 'store' ]);
+// Route::resource('posts', PostController::class);
 
-Route::get('login', [LoginController::class, 'create' ]);
-Route::post('login', [LoginController::class, 'store' ]);
+Route::get('register', [RegisterController::class, 'create']);
+Route::post('register', [RegisterController::class, 'store']);
 
-Route::get('/', [PostController::class, 'index' ]);
-Route::get('logout', [LoginController::class, 'destroy' ]);
+Route::get('login', [LoginController::class, 'create']);
+Route::post('login', [LoginController::class, 'store']);
+Route::get('logout', [LoginController::class, 'destroy']);
 
-
-Route::get('my-posts',[MyPostController::class, 'index']);
-
+Route::get('my-posts', [MyPostController::class, 'index']);
 
