@@ -25,6 +25,23 @@
                 </div>
 
                 <div>
+                    <label class="form-label">Post Title</label>
+                    <select name="category_ids[]" class="form-select" multiple>
+                        <option value="">__select__</option>
+                       @foreach ($categories as $category )
+                       <option value="{{ $category->id}}"
+                        @if (in_array($category->id , old('category_ids', $oldCategoryIds)))
+                            selected
+                        @endif
+                        >{{ $category->name}}</option>
+                       @endforeach
+                    </select>
+                    @error('category_ids')
+                    <div style="color:red">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div>
                     <label class="form-label">Post Body</label>
                     <textarea class="form-control" rows="8" name="body">{{ $post -> body }}</textarea>
 

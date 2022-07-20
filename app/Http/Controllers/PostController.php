@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use  App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Models\Category;
 
 class PostController extends Controller
 {
@@ -19,7 +20,7 @@ class PostController extends Controller
         // request('search');
 
         // $posts = Post::all();
-        $posts = Post::where('title', 'like', '%' . $request->search . '%')->orderBy('id', 'asc')->paginate(3);
+        $posts = Post::where('title', 'like', '%' . $request->search . '%')->orderBy('id', 'desc')->paginate(3);
         // $posts = Post::select(['posts.*', 'users.name'])
         // ->join('users', 'users.id', '=', 'posts.user_id')
         // ->get()
@@ -38,7 +39,8 @@ class PostController extends Controller
 
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::all();
+        return view('posts.create', compact('categories'));
     }
 
     // use  App\Http\Requests\PostRequest;
@@ -81,11 +83,26 @@ class PostController extends Controller
 
 
 
-        Post::create([
-            'title' =>  $request->title,
-            'body' =>  $request->body,
-            'user_id' => auth()->id(),
-        ]);
+        // $post = Post::create([
+        //     'title' =>  $request->title,
+        //     'body' =>  $request->body,
+        //     'user_id' => auth()->id(),
+        // ]);
+
+        // $post = auth()->user()->posts()->create([
+        //     'title' =>  $request->title,
+        //     'body' =>  $request->body,
+        // ]);
+
+        $post = auth()->user()->posts()->create($request->only('title','body'));
+
+        // foreach($request->category_ids as $categoryId) {
+        //     DB::table('category_post')->insert([
+        //         'post_id' => $post-> id,
+        //         'category_id' => $categoryId,
+        //     ]);
+        // }
+        $post->categories()->attach($request->category_ids);
 
         // Post::create($request->only(['title', 'body']));
 
@@ -98,8 +115,10 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
+        $oldCategoryIds =$post->categories->pluck('id')->toArray();
+        $categories = Category::all();
 
-        return view('posts.edit', compact('post'));
+        return view('posts.edit', compact('post', 'categories', 'oldCategoryIds'));
     }
 
     public function update(PostRequest $request, $id)
@@ -127,6 +146,21 @@ class PostController extends Controller
         //     'body' => $request->body,
         // ]);
         $post->update($request->only(['title', 'body']));
+
+        // $post->categories()->detach($post->categories->pluck('id')->toArray());
+        // $post->categories()->attach($request->category_ids);
+
+        $post->categories()->sync($request->category_ids);
+
+
+        // DB::table('category_post')->where('post_id', $post->id)->delete();
+
+        // foreach($request->category_ids as $categoryId) {
+        //     DB::table('category_post')->insert([
+        //         'post_id' => $post-> id,
+        //         'category_id' => $categoryId,
+        //     ]);
+        // }
 
         // session()->flash('success', 'A post was updated successfully.');
 
